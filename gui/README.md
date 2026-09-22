@@ -1,5 +1,9 @@
 # claude-keysmith GUI
 
+## 桌面停更
+
+這個獨立桌面不再發新的安裝包。已發出的版本保持原樣，不撤回，也不改成 Latest。之後的桌面只維護 [Keysmith Switch](https://github.com/Jia-Ethan/keysmith-switch)。範圍與進度見 [keysmith-switch#6](https://github.com/Jia-Ethan/keysmith-switch/issues/6)。
+
 Desktop client for `claude-keysmith` (`../claude-instruct.py`): a visual wrapper
 for Claude Code instruction + runtime injection. Tauri 2 + React + Vite.
 
@@ -36,8 +40,10 @@ cd src-tauri && cargo fmt --check && cargo check --locked && cargo test --locked
 
 - `src-tauri/src/cli_runner.rs` — process boundary: argv-array invocation,
   2 MiB output cap (fail closed on truncation), timeout kills the full process
-  tree, sidecar-first CLI resolution (`CLAUDE_KEYSMITH_CLI` /
-  `CLAUDE_KEYSMITH_PYTHON` env overrides).
+  tree (pipe drain after leader exit stays on the same deadline), sidecar-first
+  CLI resolution (`CLAUDE_KEYSMITH_CLI` / `CLAUDE_KEYSMITH_PYTHON` env
+  overrides). Packaged sidecar is CLI `v7.2`; GUI version comes from
+  `package.json` (`0.1.0-beta.3`).
 - `src/lib/parser.js` — `claude-keysmith/v1` JSON contract → view models.
 - `src/lib/api.js` — invoke wrapper + preview/execute pairs (every call passes
   `--json`; execute appends `--yes`).
